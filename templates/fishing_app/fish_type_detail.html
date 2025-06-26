@@ -1,0 +1,233 @@
+{% extends 'fishing_app/base.html' %}
+
+{% block title %}{{ fish_type.name }} - РыбалкаПро{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="{% url 'fishing_app:home' %}">Главная</a></li>
+        <li><a href="{% url 'fishing_app:fish_list' %}">Каталог рыб</a></li>
+        <li class="is-active"><a href="#" aria-current="page">{{ fish_type.name }}</a></li>
+    </ul>
+</nav>
+
+<div class="columns">
+    <div class="column is-8">
+        <h1 class="title is-2 section-title">{{ fish_type.name }}</h1>
+        
+        <div class="box">
+            <div class="columns">
+                <div class="column is-4">
+                    {% if fish_type.image %}
+                        <figure class="image is-4by3">
+                            <img src="{{ fish_type.image.url }}" alt="{{ fish_type.name }}">
+                        </figure>
+                    {% else %}
+                        <figure class="image is-4by3">
+                            <img src="https://via.placeholder.com/400x300?text=Нет+фото" alt="Нет фото">
+                        </figure>
+                    {% endif %}
+                </div>
+                <div class="column is-8">
+                    <p class="mb-4">{{ fish_type.description }}</p>
+                    
+                    <div class="columns is-multiline">
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">Сезон ловли:</label>
+                                <p>{{ fish_type.season_start|date:"d.m" }} - {{ fish_type.season_end|date:"d.m" }}</p>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">Оптимальная температура воды:</label>
+                                <p>{{ fish_type.optimal_temp_min }} - {{ fish_type.optimal_temp_max }} °C</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="title is-4 section-title">Где водится</h2>
+        <div class="box">
+            {% if water_bodies %}
+                <div class="columns is-multiline">
+                    {% for water_body in water_bodies %}
+                        <div class="column is-6">
+                            <div class="box has-background-light">
+                                <article class="media">
+                                    <div class="media-left">
+                                        <span class="icon is-large">
+                                            {% if water_body.water_type == 'lake' %}
+                                                <i class="fas fa-water fa-2x has-text-info"></i>
+                                            {% elif water_body.water_type == 'river' %}
+                                                <i class="fas fa-stream fa-2x has-text-link"></i>
+                                            {% elif water_body.water_type == 'pond' %}
+                                                <i class="fas fa-water fa-2x has-text-success"></i>
+                                            {% elif water_body.water_type == 'reservoir' %}
+                                                <i class="fas fa-water fa-2x has-text-primary"></i>
+                                            {% elif water_body.water_type == 'channel' %}
+                                                <i class="fas fa-water fa-2x has-text-danger"></i>
+                                            {% else %}
+                                                <i class="fas fa-water fa-2x"></i>
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-5">
+                                            <a href="{% url 'fishing_app:water_body_detail' water_body.id %}">
+                                                {{ water_body.name }}
+                                            </a>
+                                        </p>
+                                        <p class="subtitle is-6">
+                                            {{ water_body.get_water_type_display }} | {{ water_body.region }}
+                                        </p>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="has-text-centered">Нет информации о водоемах, где водится данный вид рыбы.</p>
+            {% endif %}
+        </div>
+        
+        <h2 class="title is-4 section-title">Лучшие наживки</h2>
+        <div class="box">
+            {% if best_baits %}
+                <div class="columns is-multiline">
+                    {% for bait in best_baits %}
+                        <div class="column is-3">
+                            <div class="box has-text-centered">
+                                <span class="icon is-large">
+                                    <i class="fas fa-fish fa-2x"></i>
+                                </span>
+                                <p class="title is-5 mt-3">{{ bait.name }}</p>
+                                <p class="subtitle is-6">{{ bait.catch_count }} уловов</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="has-text-centered">Нет информации о наиболее эффективных наживках.</p>
+            {% endif %}
+        </div>
+        
+        <h2 class="title is-4 section-title">Последние уловы</h2>
+        <div class="box">
+            {% if recent_catches %}
+                <div class="table-container">
+                    <table class="table is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Рыболов</th>
+                                <th>Водоем</th>
+                                <th>Количество</th>
+                                <th>Вес</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for catch in recent_catches %}
+                                <tr>
+                                    <td>{{ catch.date }}</td>
+                                    <td>
+                                        <a href="{% url 'fishing_app:fisherman_detail' catch.fisherman.id %}">
+                                            {{ catch.fisherman.name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'fishing_app:water_body_detail' catch.water_body.id %}">
+                                            {{ catch.water_body.name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ catch.quantity }} шт.</td>
+                                    <td>{{ catch.weight_total }} кг</td>
+                                    <td>
+                                        <a href="{% url 'fishing_app:fish_catch_detail' catch.id %}" class="button is-small is-link is-outlined">
+                                            <span class="icon"><i class="fas fa-eye"></i></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="has-text-centered mt-4">
+                    <a href="{% url 'fishing_app:fish_catch_list' %}?fish_type={{ fish_type.id }}" class="button is-link">
+                        <span class="icon"><i class="fas fa-list"></i></span>
+                        <span>Все уловы</span>
+                    </a>
+                </div>
+            {% else %}
+                <p class="has-text-centered">Нет информации об уловах данного вида рыбы.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="column is-4">
+        <div class="box">
+            <h3 class="title is-4">Рекомендации по ловле</h3>
+            {% if knowledge %}
+                {% for item in knowledge %}
+                    <div class="box">
+                        <h4 class="title is-5">
+                            {% if item.water_body %}
+                                {{ item.water_body.name }}
+                            {% else %}
+                                Общие рекомендации
+                            {% endif %}
+                        </h4>
+                        
+                        <div class="field">
+                            <label class="label">Сезон:</label>
+                            <p>{{ item.season }}</p>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">Время суток:</label>
+                            <p>{{ item.time_of_day }}</p>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">Температура воды:</label>
+                            <p>{{ item.temp_water_min }} - {{ item.temp_water_max }} °C</p>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">Рекомендуемые наживки:</label>
+                            <div class="tags">
+                                {% for bait in item.recommended_bait.all %}
+                                    <span class="tag is-info">{{ bait.name }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">Метод ловли:</label>
+                            <p>{{ item.fishing_method }}</p>
+                        </div>
+                        
+                        {% if item.notes %}
+                            <div class="field">
+                                <label class="label">Примечания:</label>
+                                <p>{{ item.notes }}</p>
+                            </div>
+                        {% endif %}
+                        
+                        <a href="{% url 'fishing_app:knowledge_detail' item.id %}" class="button is-link is-small is-outlined mt-3">
+                            <span class="icon"><i class="fas fa-info-circle"></i></span>
+                            <span>Подробнее</span>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="has-text-centered">Нет рекомендаций по ловле для данного вида рыбы.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

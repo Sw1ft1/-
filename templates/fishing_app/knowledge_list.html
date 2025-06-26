@@ -1,0 +1,218 @@
+{% extends 'fishing_app/base.html' %}
+
+{% block title %}База знаний - РыбалкаПро{% endblock %}
+
+{% block content %}
+<h1 class="title is-2 section-title">База знаний</h1>
+<h2 class="subtitle is-5">Рекомендации и советы по ловле различных видов рыбы</h2>
+
+<div class="box">
+    <div class="columns">
+        <div class="column is-4">
+            <div class="field">
+                <label class="label">Рыба</label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select id="fish-type-filter">
+                            <option value="">Все виды рыб</option>
+                            {% for fish in fish_types %}
+                                <option value="{{ fish.id }}" {% if selected_fish_type == fish.id|stringformat:"s" %}selected{% endif %}>{{ fish.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="field">
+                <label class="label">Водоем</label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select id="water-body-filter">
+                            <option value="">Все водоемы</option>
+                            {% for water_body in water_bodies %}
+                                <option value="{{ water_body.id }}" {% if selected_water_body == water_body.id|stringformat:"s" %}selected{% endif %}>{{ water_body.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="field">
+                <label class="label">Сезон</label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select id="season-filter">
+                            <option value="">Все сезоны</option>
+                            {% for season in seasons %}
+                                <option value="{{ season }}" {% if selected_season == season %}selected{% endif %}>{{ season }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <div class="control">
+            <button id="apply-filter" class="button is-link">
+                <span class="icon"><i class="fas fa-filter"></i></span>
+                <span>Применить фильтр</span>
+            </button>
+            <a href="{% url 'fishing_app:knowledge_list' %}" class="button is-light">
+                <span class="icon"><i class="fas fa-times"></i></span>
+                <span>Сбросить</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="columns is-multiline">
+    {% if knowledge_items %}
+        {% for knowledge in knowledge_items %}
+            <div class="column is-4">
+                <div class="card has-shadow">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            <a href="{% url 'fishing_app:fish_detail' knowledge.fish_type.id %}">
+                                {{ knowledge.fish_type.name }}
+                            </a>
+                            {% if knowledge.water_body %}
+                                <span class="mx-2">|</span>
+                                <a href="{% url 'fishing_app:water_body_detail' knowledge.water_body.id %}">
+                                    {{ knowledge.water_body.name }}
+                                </a>
+                            {% else %}
+                                <span class="mx-2">|</span>
+                                <span class="tag is-info">Общие рекомендации</span>
+                            {% endif %}
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="columns is-multiline">
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label class="label">Сезон:</label>
+                                        <p>{{ knowledge.season }}</p>
+                                    </div>
+                                </div>
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label class="label">Время суток:</label>
+                                        <p>{{ knowledge.time_of_day }}</p>
+                                    </div>
+                                </div>
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label class="label">Температура воды:</label>
+                                        <p>{{ knowledge.temp_water_min }} - {{ knowledge.temp_water_max }} °C</p>
+                                    </div>
+                                </div>
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label class="label">Метод ловли:</label>
+                                        <p>{{ knowledge.fishing_method }}</p>
+                                    </div>
+                                </div>
+                                <div class="column is-12">
+                                    <div class="field">
+                                        <label class="label">Рекомендуемые наживки:</label>
+                                        <div class="tags">
+                                            {% for bait in knowledge.recommended_bait.all %}
+                                                <span class="tag is-info">{{ bait.name }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="{% url 'fishing_app:knowledge_detail' knowledge.id %}" class="card-footer-item">
+                            <span class="icon"><i class="fas fa-info-circle"></i></span>
+                            <span>Подробнее</span>
+                        </a>
+                    </footer>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="column">
+            <div class="notification is-warning">
+                По вашему запросу ничего не найдено. Попробуйте изменить параметры поиска.
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<div class="pagination">
+    <div class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <p>Показано {{ page_obj.start_index }} - {{ page_obj.end_index }} из {{ paginator.count }}</p>
+            </div>
+        </div>
+        <div class="level-right">
+            <div class="level-item">
+                <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                    {% if page_obj.has_previous %}
+                        <a class="pagination-previous" href="?page={{ page_obj.previous_page_number }}{% if selected_fish_type %}&fish_type={{ selected_fish_type }}{% endif %}{% if selected_water_body %}&water_body={{ selected_water_body }}{% endif %}{% if selected_season %}&season={{ selected_season }}{% endif %}">Назад</a>
+                    {% else %}
+                        <a class="pagination-previous" disabled>Назад</a>
+                    {% endif %}
+                    
+                    {% if page_obj.has_next %}
+                        <a class="pagination-next" href="?page={{ page_obj.next_page_number }}{% if selected_fish_type %}&fish_type={{ selected_fish_type }}{% endif %}{% if selected_water_body %}&water_body={{ selected_water_body }}{% endif %}{% if selected_season %}&season={{ selected_season }}{% endif %}">Вперёд</a>
+                    {% else %}
+                        <a class="pagination-next" disabled>Вперёд</a>
+                    {% endif %}
+                    
+                    <ul class="pagination-list">
+                        {% for i in paginator.page_range %}
+                            {% if page_obj.number == i %}
+                                <li><a class="pagination-link is-current" aria-current="page">{{ i }}</a></li>
+                            {% elif i > page_obj.number|add:"-3" and i < page_obj.number|add:"3" %}
+                                <li><a class="pagination-link" href="?page={{ i }}{% if selected_fish_type %}&fish_type={{ selected_fish_type }}{% endif %}{% if selected_water_body %}&water_body={{ selected_water_body }}{% endif %}{% if selected_season %}&season={{ selected_season }}{% endif %}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const applyFilterBtn = document.getElementById('apply-filter');
+        const fishTypeFilter = document.getElementById('fish-type-filter');
+        const waterBodyFilter = document.getElementById('water-body-filter');
+        const seasonFilter = document.getElementById('season-filter');
+        
+        applyFilterBtn.addEventListener('click', () => {
+            const fishType = fishTypeFilter.value;
+            const waterBody = waterBodyFilter.value;
+            const season = seasonFilter.value;
+            let url = '{% url 'fishing_app:knowledge_list' %}?';
+            
+            if (fishType) {
+                url += `fish_type=${fishType}&`;
+            }
+            
+            if (waterBody) {
+                url += `water_body=${waterBody}&`;
+            }
+            
+            if (season) {
+                url += `season=${season}&`;
+            }
+            
+            window.location.href = url;
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

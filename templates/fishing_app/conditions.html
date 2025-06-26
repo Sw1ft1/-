@@ -1,0 +1,480 @@
+{% extends 'fishing_app/base.html' %}
+
+{% block title %}Анализ условий - РыбалкаПро{% endblock %}
+
+{% block content %}
+<h1 class="title is-2 section-title">Анализ условий рыбалки</h1>
+<h2 class="subtitle is-5">Статистика уловов в зависимости от различных условий</h2>
+
+<div class="box">
+    <form method="get">
+        <div class="columns">
+            <div class="column is-5">
+                <div class="field">
+                    <label class="label">Рыба</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select name="fish_type">
+                                <option value="">Все виды рыб</option>
+                                {% for fish in fish_types %}
+                                    <option value="{{ fish.id }}" {% if form.fish_type.value|stringformat:"s" == fish.id|stringformat:"s" %}selected{% endif %}>{{ fish.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-5">
+                <div class="field">
+                    <label class="label">Водоем</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select name="water_body">
+                                <option value="">Все водоемы</option>
+                                {% for water_body in water_bodies %}
+                                    <option value="{{ water_body.id }}" {% if form.water_body.value|stringformat:"s" == water_body.id|stringformat:"s" %}selected{% endif %}>{{ water_body.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field">
+                    <label class="label">&nbsp;</label>
+                    <div class="control">
+                        <button type="submit" class="button is-link is-fullwidth">
+                            <span class="icon"><i class="fas fa-filter"></i></span>
+                            <span>Применить</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="has-text-right">
+            <a href="{% url 'fishing_app:conditions' %}" class="button is-light">
+                <span class="icon"><i class="fas fa-times"></i></span>
+                <span>Сбросить</span>
+            </a>
+        </div>
+    </form>
+</div>
+
+<div class="columns">
+    <div class="column is-6">
+        <h3 class="title is-4 section-title">Влияние температуры воды</h3>
+        <div class="box">
+            {% if temp_stats %}
+                <div id="temp-chart" style="height: 300px;"></div>
+                <div class="table-container mt-4">
+                    <table class="table is-fullwidth is-narrow is-striped">
+                        <thead>
+                            <tr>
+                                <th>Температура воды (°C)</th>
+                                <th>Уловов</th>
+                                <th>Средний улов</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stat in temp_stats %}
+                                <tr>
+                                    <td>{{ stat.weather_condition__temperature_water }}</td>
+                                    <td>{{ stat.catch_count }}</td>
+                                    <td>{{ stat.avg_quantity|floatformat:1 }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="has-text-centered">Нет данных.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="column is-6">
+        <h3 class="title is-4 section-title">Влияние атмосферного давления</h3>
+        <div class="box">
+            {% if pressure_stats %}
+                <div id="pressure-chart" style="height: 300px;"></div>
+                <div class="table-container mt-4">
+                    <table class="table is-fullwidth is-narrow is-striped">
+                        <thead>
+                            <tr>
+                                <th>Давление (мм рт. ст.)</th>
+                                <th>Уловов</th>
+                                <th>Средний улов</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stat in pressure_stats %}
+                                <tr>
+                                    <td>{{ stat.weather_condition__pressure }}</td>
+                                    <td>{{ stat.catch_count }}</td>
+                                    <td>{{ stat.avg_quantity|floatformat:1 }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="has-text-centered">Нет данных.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="columns">
+    <div class="column is-6">
+        <h3 class="title is-4 section-title">Влияние времени суток</h3>
+        <div class="box">
+            {% if time_stats %}
+                <div id="time-chart" style="height: 300px;"></div>
+                <div class="table-container mt-4">
+                    <table class="table is-fullwidth is-narrow is-striped">
+                        <thead>
+                            <tr>
+                                <th>Час</th>
+                                <th>Уловов</th>
+                                <th>Средний улов</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stat in time_stats %}
+                                <tr>
+                                    <td>{{ stat.hour }}:00</td>
+                                    <td>{{ stat.catch_count }}</td>
+                                    <td>{{ stat.avg_quantity|floatformat:1 }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="has-text-centered">Нет данных.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="column is-6">
+        <h3 class="title is-4 section-title">Влияние сезона (месяца)</h3>
+        <div class="box">
+            {% if month_stats %}
+                <div id="month-chart" style="height: 300px;"></div>
+                <div class="table-container mt-4">
+                    <table class="table is-fullwidth is-narrow is-striped">
+                        <thead>
+                            <tr>
+                                <th>Месяц</th>
+                                <th>Уловов</th>
+                                <th>Средний улов</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stat in month_stats %}
+                                <tr>
+                                    <td>{{ stat.month_name }}</td>
+                                    <td>{{ stat.catch_count }}</td>
+                                    <td>{{ stat.avg_quantity|floatformat:1 }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="has-text-centered">Нет данных.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="has-text-centered mt-6">
+    <a href="{% url 'fishing_app:recommendations' %}" class="button is-link is-large">
+        <span class="icon"><i class="fas fa-thumbs-up"></i></span>
+        <span>Получить рекомендации</span>
+    </a>
+</div>
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Temperature chart
+        const tempChart = document.getElementById('temp-chart');
+        if (tempChart && {{ temp_stats|length }} > 0) {
+            const ctx = tempChart.getContext('2d');
+            
+            const data = {
+                labels: [
+                    {% for stat in temp_stats %}
+                        "{{ stat.weather_condition__temperature_water }} °C",
+                    {% endfor %}
+                ],
+                datasets: [
+                    {
+                        label: 'Количество уловов',
+                        data: [
+                            {% for stat in temp_stats %}
+                                {{ stat.catch_count }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Средний улов',
+                        data: [
+                            {% for stat in temp_stats %}
+                                {{ stat.avg_quantity|floatformat:1 }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        type: 'line',
+                        yAxisID: 'y1'
+                    }
+                ]
+            };
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Количество уловов'
+                            }
+                        },
+                        y1: {
+                            position: 'right',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Средний улов'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Pressure chart
+        const pressureChart = document.getElementById('pressure-chart');
+        if (pressureChart && {{ pressure_stats|length }} > 0) {
+            const ctx = pressureChart.getContext('2d');
+            
+            const data = {
+                labels: [
+                    {% for stat in pressure_stats %}
+                        "{{ stat.weather_condition__pressure }} мм рт. ст.",
+                    {% endfor %}
+                ],
+                datasets: [
+                    {
+                        label: 'Количество уловов',
+                        data: [
+                            {% for stat in pressure_stats %}
+                                {{ stat.catch_count }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Средний улов',
+                        data: [
+                            {% for stat in pressure_stats %}
+                                {{ stat.avg_quantity|floatformat:1 }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: 'rgba(153, 102, 255, 0.5)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1,
+                        type: 'line',
+                        yAxisID: 'y1'
+                    }
+                ]
+            };
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Количество уловов'
+                            }
+                        },
+                        y1: {
+                            position: 'right',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Средний улов'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Time chart
+        const timeChart = document.getElementById('time-chart');
+        if (timeChart && {{ time_stats|length }} > 0) {
+            const ctx = timeChart.getContext('2d');
+            
+            const data = {
+                labels: [
+                    {% for stat in time_stats %}
+                        "{{ stat.hour }}:00",
+                    {% endfor %}
+                ],
+                datasets: [
+                    {
+                        label: 'Количество уловов',
+                        data: [
+                            {% for stat in time_stats %}
+                                {{ stat.catch_count }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: 'rgba(255, 159, 64, 0.5)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Средний улов',
+                        data: [
+                            {% for stat in time_stats %}
+                                {{ stat.avg_quantity|floatformat:1 }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        type: 'line',
+                        yAxisID: 'y1'
+                    }
+                ]
+            };
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Количество уловов'
+                            }
+                        },
+                        y1: {
+                            position: 'right',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Средний улов'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Month chart
+        const monthChart = document.getElementById('month-chart');
+        if (monthChart && {{ month_stats|length }} > 0) {
+            const ctx = monthChart.getContext('2d');
+            
+            const data = {
+                labels: [
+                    {% for stat in month_stats %}
+                        "{{ stat.month_name }}",
+                    {% endfor %}
+                ],
+                datasets: [
+                    {
+                        label: 'Количество уловов',
+                        data: [
+                            {% for stat in month_stats %}
+                                {{ stat.catch_count }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Средний улов',
+                        data: [
+                            {% for stat in month_stats %}
+                                {{ stat.avg_quantity|floatformat:1 }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        type: 'line',
+                        yAxisID: 'y1'
+                    }
+                ]
+            };
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Количество уловов'
+                            }
+                        },
+                        y1: {
+                            position: 'right',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Средний улов'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %}

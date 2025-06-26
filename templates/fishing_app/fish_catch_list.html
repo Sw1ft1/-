@@ -1,0 +1,215 @@
+{% extends 'fishing_app/base.html' %}
+
+{% block title %}Уловы - РыбалкаПро{% endblock %}
+
+{% block content %}
+    <h1 class="title is-2 section-title">Уловы</h1>
+    <h2 class="subtitle is-5">Информация об уловах рыболовов</h2>
+
+    <div class="box">
+        <form method="get">
+            <div class="columns">
+                <div class="column is-3">
+                    <div class="field">
+                        <label class="label">Поиск</label>
+                        <div class="control">
+                            <input class="input" type="text" name="query" placeholder="Поиск по названию"
+                                   value="{{ form.query.value|default:'' }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="field">
+                        <label class="label">Рыба</label>
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select name="fish_type">
+                                    <option value="">Все виды</option>
+                                    {% for fish in form.fish_type.field.queryset %}
+                                        <option value="{{ fish.id }}"
+                                                {% if form.fish_type.value|stringformat:"s" == fish.id|stringformat:"s" %}selected{% endif %}>{{ fish.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="field">
+                        <label class="label">Водоем</label>
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select name="water_body">
+                                    <option value="">Все водоемы</option>
+                                    {% for water_body in form.water_body.field.queryset %}
+                                        <option value="{{ water_body.id }}"
+                                                {% if form.water_body.value|stringformat:"s" == water_body.id|stringformat:"s" %}selected{% endif %}>{{ water_body.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="field">
+                        <label class="label">Наживка</label>
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select name="bait_type">
+                                    <option value="">Все наживки</option>
+                                    {% for bait in form.bait_type.field.queryset %}
+                                        <option value="{{ bait.id }}"
+                                                {% if form.bait_type.value|stringformat:"s" == bait.id|stringformat:"s" %}selected{% endif %}>{{ bait.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button type="submit" class="button is-link">
+                        <span class="icon"><i class="fas fa-search"></i></span>
+                        <span>Применить фильтр</span>
+                    </button>
+                    <a href="{% url 'fishing_app:fish_catch_list' %}" class="button is-light">
+                        <span class="icon"><i class="fas fa-times"></i></span>
+                        <span>Сбросить</span>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="columns is-multiline">
+        {% if catches %}
+            {% for catch in catches %}
+                <div class="column is-4">
+                    <div class="card has-shadow">
+                        <div class="card-image">
+                            {% if catch.image %}
+                                <figure class="image is-4by3">
+                                    <img src="{{ catch.image.url }}" alt="{{ catch.fish_type.name }}">
+                                </figure>
+                            {% else %}
+                                <figure class="image is-4by3">
+                                    <img src="https://via.placeholder.com/400x300?text=Нет+фото" alt="Нет фото">
+                                </figure>
+                            {% endif %}
+                            <div class="card-image-tags">
+                            <span class="tag is-info">
+                                {{ catch.fish_type.name }}
+                            </span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    {% if catch.fisherman.image %}
+                                        <figure class="image is-48x48">
+                                            <img class="is-rounded" src="{{ catch.fisherman.image.url }}"
+                                                 alt="{{ catch.fisherman.name }}">
+                                        </figure>
+                                    {% else %}
+                                        <figure class="image is-48x48">
+                                            <img class="is-rounded"
+                                                 src="https://via.placeholder.com/96x96?text=Нет+фото" alt="Нет фото">
+                                        </figure>
+                                    {% endif %}
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-5">
+                                        <a href="{% url 'fishing_app:fisherman_detail' catch.fisherman.id %}">
+                                            {{ catch.fisherman.name }}
+                                        </a>
+                                    </p>
+                                    <p class="subtitle is-6">
+                                        <a href="{% url 'fishing_app:water_body_detail' catch.water_body.id %}">
+                                            {{ catch.water_body.name }}
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                <p>
+                                    <span class="icon"><i class="fas fa-calendar"></i></span>
+                                    {{ catch.date }}
+                                    <span class="icon ml-3"><i class="fas fa-clock"></i></span>
+                                    {{ catch.time|time:"H:i" }}
+                                </p>
+                                <p>
+                                    <span class="icon"><i class="fas fa-weight-hanging"></i></span>
+                                    {{ catch.quantity }} шт.
+                                    {% if catch.weight_total %}
+                                        ({{ catch.weight_total }} кг)
+                                    {% endif %}
+                                </p>
+                                <p>
+                                <span class="icon"><i class="fas fa-fish"></i>
+                                </span>
+                                    Наживка: {{ catch.bait_type.name }}
+                                </p>
+                                <p>{{ catch.description|truncatechars:100 }}</p>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="{% url 'fishing_app:fish_catch_detail' catch.id %}" class="card-footer-item">
+                                <span class="icon"><i class="fas fa-info-circle"></i></span>
+                                <span>Подробнее</span>
+                            </a>
+                        </footer>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="column">
+                <div class="notification is-warning">
+                    По вашему запросу ничего не найдено. Попробуйте изменить параметры поиска.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="pagination">
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <p>Показано {{ page_obj.start_index }} - {{ page_obj.end_index }} из {{ paginator.count }}</p>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                        {% if page_obj.has_previous %}
+                            <a class="pagination-previous" href="?page=
+                                    {{ page_obj.previous_page_number }}{% if form.query.value %}&query={{ form.query.value }}{% endif %}{% if form.fish_type.value %}&fish_type={{ form.fish_type.value }}{% endif %}{% if form.water_body.value %}&water_body={{ form.water_body.value }}{% endif %}{% if form.bait_type.value %}&bait_type={{ form.bait_type.value }}{% endif %}">Назад</a>
+                        {% else %}
+                            <a class="pagination-previous" disabled>Назад</a>
+                        {% endif %}
+
+                        {% if page_obj.has_next %}
+                            <a class="pagination-next" href="?page=
+                                    {{ page_obj.next_page_number }}{% if form.query.value %}&query={{ form.query.value }}{% endif %}{% if form.fish_type.value %}&fish_type={{ form.fish_type.value }}{% endif %}{% if form.water_body.value %}&water_body={{ form.water_body.value }}{% endif %}{% if form.bait_type.value %}&bait_type={{ form.bait_type.value }}{% endif %}">Вперёд</a>
+                        {% else %}
+                            <a class="pagination-next" disabled>Вперёд</a>
+                        {% endif %}
+
+                        <ul class="pagination-list">
+                            {% for i in paginator.page_range %}
+                                {% if page_obj.number == i %}
+                                    <li><a class="pagination-link is-current" aria-current="page">{{ i }}</a></li>
+                                {% elif i > page_obj.number|add:"-3" and i < page_obj.number|add:"3" %}
+                                    <li><a class="pagination-link" href="?page=
+                                            {{ i }}{% if form.query.value %}&query={{ form.query.value }}{% endif %}{% if form.fish_type.value %}&fish_type={{ form.fish_type.value }}{% endif %}{% if form.water_body.value %}&water_body={{ form.water_body.value }}{% endif %}{% if form.bait_type.value %}&bait_type={{ form.bait_type.value }}{% endif %}">{{ i }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

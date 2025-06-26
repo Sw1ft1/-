@@ -1,0 +1,200 @@
+{% extends 'fishing_app/base.html' %}
+
+{% block title %}Рекомендации - РыбалкаПро{% endblock %}
+
+{% block content %}
+<h1 class="title is-2 section-title">Рекомендации по рыбалке</h1>
+<h2 class="subtitle is-5">Получите рекомендации по ловле рыбы на основе погодных условий</h2>
+
+<div class="box">
+    <form method="get">
+        <div class="columns">
+            <div class="column is-5">
+                <div class="field">
+                    <label class="label">Водоем</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select name="water_body" required>
+                                <option value="">Выберите водоем</option>
+                                {% for water_body in water_bodies %}
+                                    <option value="{{ water_body.id }}" {% if selected_water_body == water_body.id|stringformat:"s" %}selected{% endif %}>{{ water_body.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-5">
+                <div class="field">
+                    <label class="label">Дата</label>
+                    <div class="control">
+                        <input class="input" type="date" name="date" value="{{ selected_date }}" required>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field">
+                    <label class="label">&nbsp;</label>
+                    <div class="control">
+                        <button type="submit" class="button is-link is-fullwidth">
+                            <span class="icon"><i class="fas fa-search"></i></span>
+                            <span>Получить</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if selected_water_body and selected_date %}
+    {% if weather %}
+        <div class="box">
+            <h3 class="title is-4">Погодные условия на {{ weather.date }}</h3>
+            <div class="columns is-multiline">
+                <div class="column is-3">
+                    <div class="field">
+                        <label class="label">Температура воздуха:</label>
+                        <p>{{ weather.temperature_air }} °C</p>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="field">
+                        <label class="label">Температура воды:</label>
+                        <p>{{ weather.temperature_water }} °C</p>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="field">
+                        <label class="label">Давление:</label>
+                        <p>{{ weather.pressure }} мм рт. ст.</p>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="field">
+                        <label class="label">Ветер:</label>
+                        <p>{{ weather.wind_direction }}, {{ weather.wind_speed }} м/с</p>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="field">
+                        <label class="label">Осадки:</label>
+                        <p>{{ weather.precipitation }}</p>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="field">
+                        <label class="label">Влажность:</label>
+                        <p>{{ weather.humidity }}%</p>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="field">
+                        <label class="label">Облачность:</label>
+                        <p>{{ weather.cloud_cover }}%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h3 class="title is-4 section-title">Рекомендации по ловле</h3>
+        
+        {% if recommendations %}
+            <div class="columns is-multiline">
+                {% for recommendation in recommendations %}
+                    <div class="column is-4">
+                        <div class="card has-shadow">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    <a href="{% url 'fishing_app:fish_detail' recommendation.fish_type.id %}">
+                                        {{ recommendation.fish_type.name }}
+                                    </a>
+                                    <span class="ml-2">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= recommendation.match_score %}
+                                                <span class="icon has-text-warning">
+                                                    <i class="fas fa-star"></i>
+                                                </span>
+                                            {% else %}
+                                                <span class="icon has-text-grey-lighter">
+                                                    <i class="fas fa-star"></i>
+                                                </span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </p>
+                            </header>
+                            <div class="card-content">
+                                <div class="content">
+                                    <div class="columns is-multiline">
+                                        <div class="column is-12">
+                                            <div class="field">
+                                                <label class="label">Метод ловли:</label>
+                                                <p>{{ recommendation.knowledge.fishing_method }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="column is-12">
+                                            <div class="field">
+                                                <label class="label">Рекомендуемые наживки:</label>
+                                                <div class="tags">
+                                                    {% for bait in recommendation.recommended_baits %}
+                                                        <span class="tag is-info">{{ bait.name }}</span>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="column is-12">
+                                            <div class="field">
+                                                <label class="label">Время суток:</label>
+                                                <p>{{ recommendation.knowledge.time_of_day }}</p>
+                                            </div>
+                                        </div>
+                                        {% if recommendation.knowledge.notes %}
+                                            <div class="column is-12">
+                                                <div class="field">
+                                                    <label class="label">Примечания:</label>
+                                                    <p>{{ recommendation.knowledge.notes }}</p>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="{% url 'fishing_app:knowledge_detail' recommendation.knowledge.id %}" class="card-footer-item">
+                                    <span class="icon"><i class="fas fa-info-circle"></i></span>
+                                    <span>Подробнее</span>
+                                </a>
+                            </footer>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="notification is-warning">
+                <p class="has-text-centered">
+                    К сожалению, нет подходящих рекомендаций для текущих погодных условий. Попробуйте выбрать другой водоем или дату.
+                </p>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="notification is-warning">
+            <p class="has-text-centered">
+                Нет данных о погодных условиях для выбранного водоема на указанную дату. Попробуйте выбрать другую дату.
+            </p>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="box has-text-centered p-6">
+        <div class="mb-5">
+            <span class="icon is-large">
+                <i class="fas fa-info-circle fa-3x has-text-info"></i>
+            </span>
+        </div>
+        <h3 class="title is-4">Получите персонализированные рекомендации</h3>
+        <p class="subtitle is-6">
+            Выберите водоем и дату, чтобы получить рекомендации по рыбалке с учетом текущих погодных условий.
+        </p>
+    </div>
+{% endif %}
+{% endblock %}

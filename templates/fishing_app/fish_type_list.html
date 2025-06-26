@@ -1,0 +1,125 @@
+{% extends 'fishing_app/base.html' %}
+
+{% block title %}Каталог рыб - РыбалкаПро{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-9">
+        <h1 class="title is-2 section-title">Каталог рыб</h1>
+        <h2 class="subtitle is-5">Информация о различных видах рыб и их характеристиках</h2>
+    </div>
+    <div class="column is-3">
+        <form method="get">
+            <div class="field has-addons">
+                <div class="control is-expanded">
+                    <input class="input" type="text" name="search" placeholder="Поиск рыбы" value="{{ search_term }}">
+                </div>
+                <div class="control">
+                    <button class="button is-info" type="submit">
+                        <span class="icon"><i class="fas fa-search"></i></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr>
+
+<div class="columns is-multiline">
+    {% if fish_types %}
+        {% for fish in fish_types %}
+            <div class="column is-3">
+                <div class="card has-shadow">
+                    <div class="card-image">
+                        {% if fish.image %}
+                            <figure class="image is-4by3">
+                                <img src="{{ fish.image.url }}" alt="{{ fish.name }}">
+                            </figure>
+                        {% else %}
+                            <figure class="image is-4by3">
+                                <img src="https://via.placeholder.com/400x300?text=Нет+фото" alt="Нет фото">
+                            </figure>
+                        {% endif %}
+                    </div>
+                    <div class="card-content">
+                        <p class="title is-5">{{ fish.name }}</p>
+                        <div class="content">
+                            <p>{{ fish.description|truncatechars:100 }}</p>
+                            <div class="tags">
+                                <span class="tag is-info">
+                                    <span class="icon"><i class="fas fa-temperature-low"></i></span>
+                                    <span>{{ fish.optimal_temp_min }}-{{ fish.optimal_temp_max }}°C</span>
+                                </span>
+                                <span class="tag is-success">
+                                    <span class="icon"><i class="fas fa-calendar"></i></span>
+                                    <span>{{ fish.season_start|date:"d.m" }}-{{ fish.season_end|date:"d.m" }}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="{% url 'fishing_app:fish_detail' fish.id %}" class="card-footer-item">
+                            <span class="icon"><i class="fas fa-info-circle"></i></span>
+                            <span>Подробнее</span>
+                        </a>
+                    </footer>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="column">
+            <div class="notification is-warning">
+                По вашему запросу ничего не найдено. Попробуйте изменить параметры поиска.
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<div class="pagination">
+    <div class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <p>Показано {{ page_obj.start_index }} - {{ page_obj.end_index }} из {{ paginator.count }}</p>
+            </div>
+        </div>
+        <div class="level-right">
+            <div class="level-item">
+                <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                    {% if page_obj.has_previous %}
+                        <a class="pagination-previous" href="?page={{ page_obj.previous_page_number }}{% if search_term %}&search={{ search_term }}{% endif %}">Назад</a>
+                    {% else %}
+                        <a class="pagination-previous" disabled>Назад</a>
+                    {% endif %}
+                    
+                    {% if page_obj.has_next %}
+                        <a class="pagination-next" href="?page={{ page_obj.next_page_number }}{% if search_term %}&search={{ search_term }}{% endif %}">Вперёд</a>
+                    {% else %}
+                        <a class="pagination-next" disabled>Вперёд</a>
+                    {% endif %}
+                    
+                    <ul class="pagination-list">
+                        {% if page_obj.number > 3 %}
+                            <li><a class="pagination-link" href="?page=1{% if search_term %}&search={{ search_term }}{% endif %}">1</a></li>
+                            <li><span class="pagination-ellipsis">&hellip;</span></li>
+                        {% endif %}
+                        
+                        {% for i in paginator.page_range %}
+                            {% if page_obj.number == i %}
+                                <li><a class="pagination-link is-current" aria-current="page">{{ i }}</a></li>
+                            {% elif i > page_obj.number|add:"-3" and i < page_obj.number|add:"3" %}
+                                <li><a class="pagination-link" href="?page={{ i }}{% if search_term %}&search={{ search_term }}{% endif %}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if page_obj.number < paginator.num_pages|add:"-2" %}
+                            <li><span class="pagination-ellipsis">&hellip;</span></li>
+                            <li><a class="pagination-link" href="?page={{ paginator.num_pages }}{% if search_term %}&search={{ search_term }}{% endif %}">{{ paginator.num_pages }}</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

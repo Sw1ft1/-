@@ -1,0 +1,215 @@
+{% extends 'fishing_app/base.html' %}
+
+{% block title %}Водоемы - РыбалкаПро{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-8">
+        <h1 class="title is-2 section-title">Водоемы</h1>
+        <h2 class="subtitle is-5">Информация о различных водоемах России</h2>
+    </div>
+    <div class="column is-4">
+        <form method="get">
+            <div class="field has-addons">
+                <div class="control is-expanded">
+                    <input class="input" type="text" name="search" placeholder="Поиск водоема" value="{{ search_term }}">
+                </div>
+                <div class="control">
+                    <button class="button is-info" type="submit">
+                        <span class="icon"><i class="fas fa-search"></i></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="box">
+    <div class="columns">
+        <div class="column is-3">
+            <div class="field">
+                <label class="label">Тип водоема</label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select id="water-type-filter">
+                            <option value="">Все типы</option>
+                            {% for key, value in water_types.items %}
+                                <option value="{{ key }}" {% if water_type == key %}selected{% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-3">
+            <div class="field">
+                <label class="label">Регион</label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select id="region-filter">
+                            <option value="">Все регионы</option>
+                            {% for r in regions %}
+                                <option value="{{ r }}" {% if region == r %}selected{% endif %}>{{ r }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-6">
+            <div class="field">
+                <label class="label">&nbsp;</label>
+                <div class="control">
+                    <button id="apply-filter" class="button is-info">
+                        <span class="icon"><i class="fas fa-filter"></i></span>
+                        <span>Применить фильтр</span>
+                    </button>
+                    <a href="{% url 'fishing_app:water_body_list' %}" class="button is-light">
+                        <span class="icon"><i class="fas fa-times"></i></span>
+                        <span>Сбросить</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="columns is-multiline">
+    {% if water_bodies %}
+        {% for water_body in water_bodies %}
+            <div class="column is-4">
+                <div class="card has-shadow">
+                    <div class="card-image">
+                        {% if water_body.image %}
+                            <figure class="image is-4by3">
+                                <img src="{{ water_body.image.url }}" alt="{{ water_body.name }}">
+                            </figure>
+                        {% else %}
+                            <figure class="image is-4by3">
+                                <img src="https://via.placeholder.com/400x300?text=Нет+фото" alt="Нет фото">
+                            </figure>
+                        {% endif %}
+                        <div class="card-image-tags">
+                            <span class="tag is-primary">
+                                {{ water_body.get_water_type_display }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p class="title is-4">{{ water_body.name }}</p>
+                        <p class="subtitle is-6">{{ water_body.region }}</p>
+                        <div class="content">
+                            <p>{{ water_body.description|truncatechars:150 }}</p>
+                            <div class="columns is-mobile">
+                                {% if water_body.depth_avg %}
+                                <div class="column">
+                                    <div class="has-text-centered">
+                                        <p class="heading">Средняя глубина</p>
+                                        <p class="title is-5">{{ water_body.depth_avg }} м</p>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if water_body.depth_max %}
+                                <div class="column">
+                                    <div class="has-text-centered">
+                                        <p class="heading">Макс. глубина</p>
+                                        <p class="title is-5">{{ water_body.depth_max }} м</p>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if water_body.area %}
+                                <div class="column">
+                                    <div class="has-text-centered">
+                                        <p class="heading">Площадь</p>
+                                        <p class="title is-5">{{ water_body.area }} км²</p>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="{% url 'fishing_app:water_body_detail' water_body.id %}" class="card-footer-item">
+                            <span class="icon"><i class="fas fa-info-circle"></i></span>
+                            <span>Подробнее</span>
+                        </a>
+                    </footer>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="column">
+            <div class="notification is-warning">
+                По вашему запросу ничего не найдено. Попробуйте изменить параметры поиска.
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<div class="pagination">
+    <div class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <p>Показано {{ page_obj.start_index }} - {{ page_obj.end_index }} из {{ paginator.count }}</p>
+            </div>
+        </div>
+        <div class="level-right">
+            <div class="level-item">
+                <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                    {% if page_obj.has_previous %}
+                        <a class="pagination-previous" href="?page={{ page_obj.previous_page_number }}{% if search_term %}&search={{ search_term }}{% endif %}{% if water_type %}&water_type={{ water_type }}{% endif %}{% if region %}&region={{ region }}{% endif %}">Назад</a>
+                    {% else %}
+                        <a class="pagination-previous" disabled>Назад</a>
+                    {% endif %}
+                    
+                    {% if page_obj.has_next %}
+                        <a class="pagination-next" href="?page={{ page_obj.next_page_number }}{% if search_term %}&search={{ search_term }}{% endif %}{% if water_type %}&water_type={{ water_type }}{% endif %}{% if region %}&region={{ region }}{% endif %}">Вперёд</a>
+                    {% else %}
+                        <a class="pagination-next" disabled>Вперёд</a>
+                    {% endif %}
+                    
+                    <ul class="pagination-list">
+                        {% for i in paginator.page_range %}
+                            {% if page_obj.number == i %}
+                                <li><a class="pagination-link is-current" aria-current="page">{{ i }}</a></li>
+                            {% elif i > page_obj.number|add:"-3" and i < page_obj.number|add:"3" %}
+                                <li><a class="pagination-link" href="?page={{ i }}{% if search_term %}&search={{ search_term }}{% endif %}{% if water_type %}&water_type={{ water_type }}{% endif %}{% if region %}&region={{ region }}{% endif %}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const applyFilterBtn = document.getElementById('apply-filter');
+        const waterTypeFilter = document.getElementById('water-type-filter');
+        const regionFilter = document.getElementById('region-filter');
+        
+        applyFilterBtn.addEventListener('click', () => {
+            const waterType = waterTypeFilter.value;
+            const region = regionFilter.value;
+            let url = '{% url 'fishing_app:water_body_list' %}?';
+            
+            if (waterType) {
+                url += `water_type=${waterType}&`;
+            }
+            
+            if (region) {
+                url += `region=${region}&`;
+            }
+            
+            if ("{{ search_term }}") {
+                url += `search={{ search_term }}&`;
+            }
+            
+            window.location.href = url;
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}
