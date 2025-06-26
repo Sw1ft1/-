@@ -1,0 +1,1053 @@
+[
+  {
+    "model": "fishing_app.fishtype",
+    "pk": 1,
+    "fields": {
+      "name": "Окунь",
+      "description": "Пресноводная рыба семейства окуневых.",
+      "season_start": "2025-03-15",
+      "season_end": "2025-11-15",
+      "optimal_temp_min": 10.0,
+      "optimal_temp_max": 22.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishtype",
+    "pk": 2,
+    "fields": {
+      "name": "Щука",
+      "description": "Хищная пресноводная рыба семейства щуковых.",
+      "season_start": "2025-03-01",
+      "season_end": "2025-12-15",
+      "optimal_temp_min": 8.0,
+      "optimal_temp_max": 20.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishtype",
+    "pk": 3,
+    "fields": {
+      "name": "Карп",
+      "description": "Пресноводная рыба семейства карповых.",
+      "season_start": "2025-05-15",
+      "season_end": "2025-10-15",
+      "optimal_temp_min": 15.0,
+      "optimal_temp_max": 25.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishtype",
+    "pk": 4,
+    "fields": {
+      "name": "Лещ",
+      "description": "Пресноводная рыба семейства карповых.",
+      "season_start": "2025-05-01",
+      "season_end": "2025-10-31",
+      "optimal_temp_min": 12.0,
+      "optimal_temp_max": 24.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishtype",
+    "pk": 5,
+    "fields": {
+      "name": "Судак",
+      "description": "Хищная пресноводная рыба семейства окуневых.",
+      "season_start": "2025-04-15",
+      "season_end": "2025-11-15",
+      "optimal_temp_min": 12.0,
+      "optimal_temp_max": 22.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishtype",
+    "pk": 6,
+    "fields": {
+      "name": "Форель",
+      "description": "Рыба семейства лососевых. Встречается в горных реках и платных прудах.",
+      "season_start": "2025-04-01",
+      "season_end": "2025-10-15",
+      "optimal_temp_min": 6.0,
+      "optimal_temp_max": 18.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishtype",
+    "pk": 7,
+    "fields": {
+      "name": "Сазан",
+      "description": "Пресноводная рыба семейства карповых. Дикая форма карпа.",
+      "season_start": "2025-05-15",
+      "season_end": "2025-10-15",
+      "optimal_temp_min": 15.0,
+      "optimal_temp_max": 28.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishtype",
+    "pk": 8,
+    "fields": {
+      "name": "Плотва",
+      "description": "Пресноводная рыба семейства карповых.",
+      "season_start": "2025-04-01",
+      "season_end": "2025-11-15",
+      "optimal_temp_min": 10.0,
+      "optimal_temp_max": 22.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishtype",
+    "pk": 9,
+    "fields": {
+      "name": "Сом",
+      "description": "Крупная пресноводная хищная рыба.",
+      "season_start": "2025-06-01",
+      "season_end": "2025-10-31",
+      "optimal_temp_min": 16.0,
+      "optimal_temp_max": 28.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishtype",
+    "pk": 10,
+    "fields": {
+      "name": "Толстолобик",
+      "description": "Пресноводная рыба семейства карповых. Часто разводится.",
+      "season_start": "2025-05-15",
+      "season_end": "2025-09-30",
+      "optimal_temp_min": 18.0,
+      "optimal_temp_max": 28.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.baittype",
+    "pk": 1,
+    "fields": {
+      "name": "Червь",
+      "description": "Дождевые черви - универсальная наживка.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.baittype",
+    "pk": 2,
+    "fields": {
+      "name": "Мотыль",
+      "description": "Личинка комара-звонца. Эффективен весной и осенью.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.baittype",
+    "pk": 3,
+    "fields": {
+      "name": "Опарыш",
+      "description": "Личинка мухи.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.baittype",
+    "pk": 4,
+    "fields": {
+      "name": "Кукуруза",
+      "description": "Консервированная кукуруза. Отлично подходит для карпа и сазана.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.baittype",
+    "pk": 5,
+    "fields": {
+      "name": "Бойлы",
+      "description": "Специальные приманки для карповой рыбалки.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.baittype",
+    "pk": 6,
+    "fields": {
+      "name": "Блесна",
+      "description": "Металлическая приманка, имитирующая рыбку.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.baittype",
+    "pk": 7,
+    "fields": {
+      "name": "Воблер",
+      "description": "Объемная приманка с лопастью, имитирующая рыбку.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.baittype",
+    "pk": 8,
+    "fields": {
+      "name": "Силиконовые приманки",
+      "description": "Мягкие имитации рыб и других организмов.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.baittype",
+    "pk": 9,
+    "fields": {
+      "name": "Тесто",
+      "description": "Самодельная наживка на основе теста (мамалыга, мастырка).",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.baittype",
+    "pk": 10,
+    "fields": {
+      "name": "Живец",
+      "description": "Мелкая живая рыба на крючке (карась, верховка).",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbody",
+    "pk": 1,
+    "fields": {
+      "name": "Река Кубань",
+      "water_type": "river",
+      "region": "Краснодарский край",
+      "coordinates": "45.0400° с.ш., 38.9700° в.д.",
+      "description": "Главная река Краснодарского края, протекает через город Краснодар.",
+      "depth_avg": 4.0,
+      "depth_max": 15.0,
+      "area": null,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbody",
+    "pk": 2,
+    "fields": {
+      "name": "Краснодарское водохранилище",
+      "water_type": "reservoir",
+      "region": "Краснодарский край",
+      "coordinates": "45.0333° с.ш., 39.1833° в.д.",
+      "description": "Крупнейшее водохранилище на Северном Кавказе, на реке Кубань.",
+      "depth_avg": 5.0,
+      "depth_max": 18.0,
+      "area": 420.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbody",
+    "pk": 3,
+    "fields": {
+      "name": "Река Бейсуг",
+      "water_type": "river",
+      "region": "Краснодарский край",
+      "coordinates": "46.1500° с.ш., 38.6000° в.д.",
+      "description": "Степная река, впадающая в Бейсугский лиман Азовского моря.",
+      "depth_avg": 1.5,
+      "depth_max": 5.0,
+      "area": null,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbody",
+    "pk": 4,
+    "fields": {
+      "name": "Пруд \"Золотой Карп\"",
+      "water_type": "pond",
+      "region": "Краснодарский край",
+      "coordinates": "45.2100° с.ш., 38.8500° в.д.",
+      "description": "Платный пруд для спортивной рыбалки с зарыблением карпом, амуром.",
+      "depth_avg": 2.5,
+      "depth_max": 6.0,
+      "area": 0.15,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbody",
+    "pk": 5,
+    "fields": {
+      "name": "Река Пшиш",
+      "water_type": "river",
+      "region": "Краснодарский край",
+      "coordinates": "45.0800° с.ш., 39.4000° в.д.",
+      "description": "Левый приток реки Кубань, берет начало в горах.",
+      "depth_avg": 2.0,
+      "depth_max": 7.0,
+      "area": null,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbody",
+    "pk": 6,
+    "fields": {
+      "name": "Шапсугское водохранилище",
+      "water_type": "reservoir",
+      "region": "Краснодарский край",
+      "coordinates": "44.9000° с.ш., 38.8667° в.д.",
+      "description": "Водохранилище на реке Афипс, используется для орошения.",
+      "depth_avg": 3.5,
+      "depth_max": 8.0,
+      "area": 46.0,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbody",
+    "pk": 7,
+    "fields": {
+      "name": "Озеро Абрау",
+      "water_type": "lake",
+      "region": "Краснодарский край",
+      "coordinates": "44.6970° с.ш., 37.5940° в.д.",
+      "description": "Самое большое пресноводное озеро Краснодарского края.",
+      "depth_avg": 5.8,
+      "depth_max": 11.0,
+      "area": 1.6,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbody",
+    "pk": 8,
+    "fields": {
+      "name": "Река Протока",
+      "water_type": "river",
+      "region": "Краснодарский край",
+      "coordinates": "45.4333° с.ш., 38.0500° в.д.",
+      "description": "Правый судоходный рукав реки Кубань.",
+      "depth_avg": 3.0,
+      "depth_max": 10.0,
+      "area": null,
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 1,
+    "fields": {
+      "water_body": 1,
+      "fish_type": 1,
+      "population_level": 8,
+      "best_season": "Весна, Осень",
+      "additional_info": "Много окуня разного размера."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 2,
+    "fields": {
+      "water_body": 1,
+      "fish_type": 2,
+      "population_level": 6,
+      "best_season": "Весна, Осень",
+      "additional_info": "Встречается в заводях и у коряг."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 3,
+    "fields": {
+      "water_body": 1,
+      "fish_type": 5,
+      "population_level": 7,
+      "best_season": "Лето, Осень",
+      "additional_info": "Хорошо ловится на джиг."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 4,
+    "fields": {
+      "water_body": 1,
+      "fish_type": 9,
+      "population_level": 5,
+      "best_season": "Лето",
+      "additional_info": "Встречается в ямах."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 5,
+    "fields": {
+      "water_body": 2,
+      "fish_type": 5,
+      "population_level": 8,
+      "best_season": "Лето, Осень",
+      "additional_info": "Много судака, в том числе трофейного."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 6,
+    "fields": {
+      "water_body": 2,
+      "fish_type": 4,
+      "population_level": 9,
+      "best_season": "Лето",
+      "additional_info": "Основной объект ловли мирной рыбы."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 7,
+    "fields": {
+      "water_body": 2,
+      "fish_type": 9,
+      "population_level": 6,
+      "best_season": "Лето",
+      "additional_info": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 8,
+    "fields": {
+      "water_body": 2,
+      "fish_type": 7,
+      "population_level": 7,
+      "best_season": "Лето",
+      "additional_info": "Крупный сазан."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 9,
+    "fields": {
+      "water_body": 2,
+      "fish_type": 10,
+      "population_level": 7,
+      "best_season": "Лето",
+      "additional_info": "Распространен, ловится на специальную снасть."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 10,
+    "fields": {
+      "water_body": 3,
+      "fish_type": 2,
+      "population_level": 7,
+      "best_season": "Весна, Осень",
+      "additional_info": "Много некрупной щуки."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 11,
+    "fields": {
+      "water_body": 3,
+      "fish_type": 1,
+      "population_level": 8,
+      "best_season": "Весна, Лето, Осень",
+      "additional_info": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 12,
+    "fields": {
+      "water_body": 3,
+      "fish_type": 8,
+      "population_level": 9,
+      "best_season": "Весна, Лето",
+      "additional_info": "Много плотвы, тарани."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 13,
+    "fields": {
+      "water_body": 4,
+      "fish_type": 3,
+      "population_level": 10,
+      "best_season": "Лето",
+      "additional_info": "Основной вид для зарыбления."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 14,
+    "fields": {
+      "water_body": 4,
+      "fish_type": 7,
+      "population_level": 8,
+      "best_season": "Лето",
+      "additional_info": "Также запускается администрацией пруда."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 15,
+    "fields": {
+      "water_body": 4,
+      "fish_type": 6,
+      "population_level": 6,
+      "best_season": "Весна, Осень",
+      "additional_info": "Иногда зарыбляют форелью."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 16,
+    "fields": {
+      "water_body": 5,
+      "fish_type": 1,
+      "population_level": 7,
+      "best_season": "Весна, Лето",
+      "additional_info": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 17,
+    "fields": {
+      "water_body": 5,
+      "fish_type": 8,
+      "population_level": 8,
+      "best_season": "Весна, Лето",
+      "additional_info": "Ловится голавль."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 18,
+    "fields": {
+      "water_body": 5,
+      "fish_type": 6,
+      "population_level": 4,
+      "best_season": "Весна",
+      "additional_info": "В верховьях встречается ручьевая форель."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 19,
+    "fields": {
+      "water_body": 6,
+      "fish_type": 4,
+      "population_level": 7,
+      "best_season": "Лето",
+      "additional_info": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 20,
+    "fields": {
+      "water_body": 6,
+      "fish_type": 1,
+      "population_level": 8,
+      "best_season": "Лето",
+      "additional_info": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 21,
+    "fields": {
+      "water_body": 6,
+      "fish_type": 7,
+      "population_level": 6,
+      "best_season": "Лето",
+      "additional_info": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 22,
+    "fields": {
+      "water_body": 7,
+      "fish_type": 1,
+      "population_level": 6,
+      "best_season": "Лето",
+      "additional_info": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 23,
+    "fields": {
+      "water_body": 7,
+      "fish_type": 7,
+      "population_level": 5,
+      "best_season": "Лето",
+      "additional_info": "Малочислен."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 24,
+    "fields": {
+      "water_body": 7,
+      "fish_type": 6,
+      "population_level": 3,
+      "best_season": "Весна",
+      "additional_info": "Редкая, занесена в Красную книгу (абрауская тюлька)."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 25,
+    "fields": {
+      "water_body": 8,
+      "fish_type": 5,
+      "population_level": 7,
+      "best_season": "Лето, Осень",
+      "additional_info": "Хорошие места для ловли судака."
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 27,
+    "fields": {
+      "water_body": 8,
+      "fish_type": 9,
+      "population_level": 6,
+      "best_season": "Лето",
+      "additional_info": ""
+    }
+  },
+  {
+    "model": "fishing_app.waterbodyfish",
+    "pk": 28,
+    "fields": {
+      "water_body": 8,
+      "fish_type": 4,
+      "population_level": 8,
+      "best_season": "Лето",
+      "additional_info": ""
+    }
+  },
+  {
+    "model": "fishing_app.fisherman",
+    "pk": 1,
+    "fields": {
+      "user": null,
+      "name": "Иван Петров",
+      "experience_years": 15,
+      "bio": "Опытный рыболов из Краснодара, предпочитает спиннинг на Кубани и водохранилище. Любит ловить хищную рыбу.",
+      "image": "",
+      "favorite_water_bodies": [1, 2, 5],
+      "preferred_bait_types": [6, 7, 8, 10],
+      "preferred_fish_types": [1, 2, 5, 9]
+    }
+  },
+  {
+    "model": "fishing_app.fisherman",
+    "pk": 2,
+    "fields": {
+      "user": null,
+      "name": "Александр Сидоров",
+      "experience_years": 8,
+      "bio": "Увлекается карповой рыбалкой на платных прудах и Краснодарском водохранилище.",
+      "image": "",
+      "favorite_water_bodies": [2, 4],
+      "preferred_bait_types": [4, 5, 9],
+      "preferred_fish_types": [3, 7, 10]
+    }
+  },
+  {
+    "model": "fishing_app.fisherman",
+    "pk": 3,
+    "fields": {
+      "user": null,
+      "name": "Михаил Иванов",
+      "experience_years": 20,
+      "bio": "Живет в Брюховецкой, отлично знает реку Бейсуг. Предпочитает ловлю на фидер.",
+      "image": "",
+      "favorite_water_bodies": [2, 3, 6],
+      "preferred_bait_types": [1, 4, 9],
+      "preferred_fish_types": [4, 8, 7]
+    }
+  },
+  {
+    "model": "fishing_app.fisherman",
+    "pk": 4,
+    "fields": {
+      "user": null,
+      "name": "Сергей Кузнецов",
+      "experience_years": 5,
+      "bio": "Начал рыбачить недавно, но уже имеет хорошие результаты. Предпочитает спиннинг на реках Пшиш и Протока.",
+      "image": "",
+      "favorite_water_bodies": [5, 8],
+      "preferred_bait_types": [6, 7, 8],
+      "preferred_fish_types": [2, 5]
+    }
+  },
+  {
+    "model": "fishing_app.fisherman",
+    "pk": 5,
+    "fields": {
+      "user": null,
+      "name": "Дмитрий Новиков",
+      "experience_years": 12,
+      "bio": "Любитель разнообразной рыбалки. Часто ездит на озеро Абрау и реку Кубань.",
+      "image": "",
+      "favorite_water_bodies": [7, 1],
+      "preferred_bait_types": [2, 3, 8, 10],
+      "preferred_fish_types": [1, 5, 8]
+    }
+  },
+  {
+    "model": "fishing_app.weathercondition",
+    "pk": 1,
+    "fields": {
+      "date": "2025-04-05",
+      "water_body": 1,
+      "temperature_air": 15.8,
+      "temperature_water": 11.2,
+      "pressure": 759.3,
+      "wind_speed": 4.2,
+      "wind_direction": "В",
+      "precipitation": "Переменная облачность",
+      "humidity": 65,
+      "cloud_cover": 40
+    }
+  },
+  {
+    "model": "fishing_app.weathercondition",
+    "pk": 2,
+    "fields": {
+      "date": "2025-04-05",
+      "water_body": 2,
+      "temperature_air": 16.3,
+      "temperature_water": 11.8,
+      "pressure": 757.8,
+      "wind_speed": 3.5,
+      "wind_direction": "ЮВ",
+      "precipitation": "Ясно",
+      "humidity": 55,
+      "cloud_cover": 10
+    }
+  },
+  {
+    "model": "fishing_app.weathercondition",
+    "pk": 3,
+    "fields": {
+      "date": "2025-04-05",
+      "water_body": 3,
+      "temperature_air": 15.6,
+      "temperature_water": 12.1,
+      "pressure": 760.1,
+      "wind_speed": 4.8,
+      "wind_direction": "В",
+      "precipitation": "Переменная облачность",
+      "humidity": 62,
+      "cloud_cover": 35
+    }
+  },
+  {
+    "model": "fishing_app.weathercondition",
+    "pk": 4,
+    "fields": {
+      "date": "2025-04-04",
+      "water_body": 1,
+      "temperature_air": 14.9,
+      "temperature_water": 10.9,
+      "pressure": 755.6,
+      "wind_speed": 5.3,
+      "wind_direction": "СВ",
+      "precipitation": "Облачно",
+      "humidity": 70,
+      "cloud_cover": 75
+    }
+  },
+  {
+    "model": "fishing_app.fishcatch",
+    "pk": 1,
+    "fields": {
+      "fisherman": 1,
+      "fish_type": 2,
+      "water_body": 1,
+      "bait_type": 10,
+      "date": "2025-04-03",
+      "time": "06:45:00",
+      "weather_condition": null,
+      "quantity": 2,
+      "weight_total": 4.5,
+      "weight_max": 2.8,
+      "description": "Улов 2 шт. Щука на Живец на реке Кубань. Условия: ясно, температура воды: 10.8 °C.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishcatch",
+    "pk": 2,
+    "fields": {
+      "fisherman": 2,
+      "fish_type": 3,
+      "water_body": 4,
+      "bait_type": 5,
+      "date": "2025-04-01",
+      "time": "14:20:00",
+      "weather_condition": null,
+      "quantity": 3,
+      "weight_total": 10.2,
+      "weight_max": 4.7,
+      "description": "Улов 3 шт. Карп на Бойлы на пруду 'Золотой Карп'. Условия: переменная облачность, температура воды: 12.5 °C.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishcatch",
+    "pk": 3,
+    "fields": {
+      "fisherman": 3,
+      "fish_type": 4,
+      "water_body": 3,
+      "bait_type": 1,
+      "date": "2025-04-04",
+      "time": "09:15:00",
+      "weather_condition": null,
+      "quantity": 5,
+      "weight_total": 5.8,
+      "weight_max": 1.3,
+      "description": "Улов 5 шт. Лещ на Червь на реке Бейсуг. Условия: облачно, температура воды: 11.3 °C.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishcatch",
+    "pk": 4,
+    "fields": {
+      "fisherman": 4,
+      "fish_type": 5,
+      "water_body": 5,
+      "bait_type": 7,
+      "date": "2025-04-05",
+      "time": "17:40:00",
+      "weather_condition": null,
+      "quantity": 1,
+      "weight_total": 3.2,
+      "weight_max": 3.2,
+      "description": "Улов 1 шт. Судак на Воблер на реке Пшиш. Условия: ясно, температура воды: 11.1 °C.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishcatch",
+    "pk": 5,
+    "fields": {
+      "fisherman": 5,
+      "fish_type": 1,
+      "water_body": 7,
+      "bait_type": 8,
+      "date": "2025-04-02",
+      "time": "15:30:00",
+      "weather_condition": null,
+      "quantity": 12,
+      "weight_total": 3.5,
+      "weight_max": 0.4,
+      "description": "Улов 12 шт. Окунь на Силиконовые приманки на озере Абрау. Условия: переменная облачность, температура воды: 10.8 °C.",
+      "image": ""
+    }
+  },
+  {
+    "model": "fishing_app.fishingknowledge",
+    "pk": 1,
+    "fields": {
+      "fish_type": 1,
+      "water_body": null,
+      "season": "Весна, Лето, Осень",
+      "time_of_day": "Утро, Вечер",
+      "temp_air_min": 5.0,
+      "temp_air_max": 30.0,
+      "temp_water_min": 10.0,
+      "temp_water_max": 22.0,
+      "pressure_min": 745.0,
+      "pressure_max": 770.0,
+      "fishing_method": "Спиннинг (микроджиг, отводной поводок), поплавочная удочка",
+      "notes": "Общие рекомендации по ловле окуня в Краснодарском крае.",
+      "recommended_bait": [1, 8, 6, 2, 3]
+    }
+  },
+  {
+    "model": "fishing_app.fishingknowledge",
+    "pk": 2,
+    "fields": {
+      "fish_type": 2,
+      "water_body": null,
+      "season": "Весна, Осень, Зима (по открытой воде)",
+      "time_of_day": "Утро, Вечер",
+      "temp_air_min": 0.0,
+      "temp_air_max": 25.0,
+      "temp_water_min": 8.0,
+      "temp_water_max": 20.0,
+      "pressure_min": 745.0,
+      "pressure_max": 770.0,
+      "fishing_method": "Спиннинг (воблеры, блесны, джиг), ловля на живца",
+      "notes": "Общие рекомендации по ловле щуки в Краснодарском крае. Активна в прохладное время.",
+      "recommended_bait": [7, 8, 10, 6]
+    }
+  },
+  {
+    "model": "fishing_app.fishingknowledge",
+    "pk": 3,
+    "fields": {
+      "fish_type": 3,
+      "water_body": null,
+      "season": "Лето, Ранняя Осень",
+      "time_of_day": "День, Вечер, Ночь",
+      "temp_air_min": 15.0,
+      "temp_air_max": 35.0,
+      "temp_water_min": 15.0,
+      "temp_water_max": 25.0,
+      "pressure_min": 750.0,
+      "pressure_max": 765.0,
+      "fishing_method": "Донная ловля (карпфишинг), поплавочная удочка",
+      "notes": "Общие рекомендации по ловле карпа в Краснодарском крае. Требует прикормки.",
+      "recommended_bait": [4, 5, 9, 1]
+    }
+  },
+  {
+    "model": "fishing_app.fishingknowledge",
+    "pk": 4,
+    "fields": {
+      "fish_type": 5,
+      "water_body": 7,
+      "season": "Лето, Осень",
+      "time_of_day": "Утро, Вечер",
+      "temp_air_min": 12.0,
+      "temp_air_max": 28.0,
+      "temp_water_min": 12.0,
+      "temp_water_max": 22.0,
+      "pressure_min": 748.0,
+      "pressure_max": 765.0,
+      "fishing_method": "Спиннинг с лодки (джиг), троллинг",
+      "notes": "Специфические рекомендации по ловле Судака на водоеме Озеро Абрау. Искать на бровках.",
+      "recommended_bait": [7, 8, 10]
+    }
+  },
+  {
+    "model": "fishing_app.fishingknowledge",
+    "pk": 5,
+    "fields": {
+      "fish_type": 4,
+      "water_body": 2,
+      "season": "Лето",
+      "time_of_day": "Утро, День",
+      "temp_air_min": 15.0,
+      "temp_air_max": 30.0,
+      "temp_water_min": 15.0,
+      "temp_water_max": 24.0,
+      "pressure_min": 750.0,
+      "pressure_max": 765.0,
+      "fishing_method": "Фидер, донная ловля с лодки",
+      "notes": "Специфические рекомендации по ловле Леща на водоеме Краснодарское водохранилище. Нужна обильная прикормка.",
+      "recommended_bait": [1, 2, 4, 3, 9]
+    }
+  },
+  {
+    "model": "fishing_app.fishingknowledge",
+    "pk": 6,
+    "fields": {
+      "fish_type": 3,
+      "water_body": 4,
+      "season": "Лето",
+      "time_of_day": "День, Вечер",
+      "temp_air_min": 18.0,
+      "temp_air_max": 32.0,
+      "temp_water_min": 18.0,
+      "temp_water_max": 25.0,
+      "pressure_min": 750.0,
+      "pressure_max": 765.0,
+      "fishing_method": "Донная ловля (карпфишинг), поплавочная удочка",
+      "notes": "Специфические рекомендации по ловле Карпа на водоеме Пруд \"Золотой Карп\". Узнать у администрации об используемых прикормках.",
+      "recommended_bait": [4, 5, 9]
+    }
+  },
+  {
+    "model": "fishing_app.fishingknowledge",
+    "pk": 7,
+    "fields": {
+      "fish_type": 7,
+      "water_body": 1,
+      "season": "Лето, Ранняя Осень",
+      "time_of_day": "Утро, Вечер, Ночь",
+      "temp_air_min": 16.0,
+      "temp_air_max": 33.0,
+      "temp_water_min": 18.0,
+      "temp_water_max": 28.0,
+      "pressure_min": 750.0,
+      "pressure_max": 765.0,
+      "fishing_method": "Донная ловля, поплавочная удочка (в проводку)",
+      "notes": "Специфические рекомендации по ловле Сазана на водоеме Река Кубань. Искать на ямах и бровках с течением.",
+      "recommended_bait": [1, 4, 9, 5]
+    }
+  },
+  {
+    "model": "fishing_app.fishingknowledge",
+    "pk": 8,
+    "fields": {
+      "fish_type": 1,
+      "water_body": 1,
+      "season": "Весна, Лето, Осень",
+      "time_of_day": "Утро, Вечер",
+      "temp_air_min": 8.0,
+      "temp_air_max": 30.0,
+      "temp_water_min": 10.0,
+      "temp_water_max": 22.0,
+      "pressure_min": 750.0,
+      "pressure_max": 765.0,
+      "fishing_method": "Спиннинг с берега (микроджиг), поплавочная удочка",
+      "notes": "Специфические рекомендации по ловле Окуня на водоеме Река Кубань. Часто держится у береговой линии, под обрывами.",
+      "recommended_bait": [3, 6, 8, 1, 2]
+    }
+  },
+  {
+    "model": "fishing_app.fishingknowledge",
+    "pk": 9,
+    "fields": {
+      "fish_type": 2,
+      "water_body": 5,
+      "season": "Весна, Осень",
+      "time_of_day": "Утро",
+      "temp_air_min": 5.0,
+      "temp_air_max": 22.0,
+      "temp_water_min": 8.0,
+      "temp_water_max": 18.0,
+      "pressure_min": 748.0,
+      "pressure_max": 768.0,
+      "fishing_method": "Спиннинг с берега (воблеры, блесны)",
+      "notes": "Специфические рекомендации по ловле Щуки на водоеме Река Пшиш. Искать в местах с замедленным течением, у коряг.",
+      "recommended_bait": [7, 8, 10, 6]
+    }
+  },
+  {
+    "model": "fishing_app.fishingknowledge",
+    "pk": 10,
+    "fields": {
+      "fish_type": 6,
+      "water_body": 4,
+      "season": "Весна, Осень",
+      "time_of_day": "Утро, Вечер",
+      "temp_air_min": 3.0,
+      "temp_air_max": 20.0,
+      "temp_water_min": 6.0,
+      "temp_water_max": 18.0,
+      "pressure_min": 750.0,
+      "pressure_max": 765.0,
+      "fishing_method": "Спиннинг с берега (микроколебалки, воблеры), нахлыст",
+      "notes": "Специфические рекомендации по ловле Форели на водоеме Пруд \"Золотой Карп\", если она зарыблена.",
+      "recommended_bait": [3, 6, 7, 8]
+    }
+  }
+]
